@@ -1,0 +1,18 @@
+# Database configuration
+# Override with APP__DATABASE__URL environment variable in production
+#
+# Connection string format:
+#   postgres://username:password@host:port/database
+#
+# For local development, a simple setup works:
+#   docker run -d --name trading-postgres -p 5432:5432 \
+#     -e POSTGRES_USER=trading \
+#     -e POSTGRES_PASSWORD=trading \
+#     -e POSTGRES_DB=trading_bot \
+#     postgres:16-alpine
+
+database:
+  url: "postgres://trading:trading@localhost:5432/trading_bot"
+  max_connections: 5
+  min_connections: 1
+  acquire_timeout_secs: 3

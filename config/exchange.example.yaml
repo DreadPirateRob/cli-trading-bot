@@ -1,0 +1,42 @@
+# Exchange Configuration
+# Binance.US connection settings
+
+exchange:
+  # Exchange identifier
+  name: binance_us
+
+  # REST API endpoint (for authenticated requests in Phase 6)
+  api_url: https://api.binance.us
+
+  # WebSocket endpoint for real-time data
+  ws_url: wss://stream.binance.us:9443
+
+  # Request timeout in milliseconds
+  timeout_ms: 5000
+
+  # Trading pair symbol (lowercase)
+  symbol: btcusdt
+
+  # Rate limiting settings
+  rate_limits:
+    # Maximum requests per second to REST API
+    requests_per_second: 10
+    # Burst capacity for short bursts
+    burst_size: 20
+
+# API Credentials
+# NOTE: Do NOT put actual credentials in config files!
+# Use environment variables instead:
+#   BINANCE_API_KEY=your_key
+#   BINANCE_API_SECRET=your_secret
+#
+# Or using the config layering pattern:
+#   APP__EXCHANGE__API_KEY=your_key
+#   APP__EXCHANGE__API_SECRET=your_secret
+#
+# Credentials are only needed for:
+# - Placing orders (Phase 6)
+# - Checking balances (Phase 6)
+# - Reading account info
+#
+# Public data streams (like trade data) do NOT require authentication.

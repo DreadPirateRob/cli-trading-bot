@@ -1,0 +1,91 @@
+# Docker Compose configuration for Trading Bot stack
+# Usage: docker compose -f docker/docker-compose.yml up -d
+
+services:
+  # Trading Bot Service
+  trading-bot:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: trading-bot
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # Database connection
+      - APP__DATABASE__URL=postgres://trading:${DB_PASSWORD}@postgres:5432/trading
+      # Exchange credentials (from .env)
+      - APP__EXCHANGE__API_KEY=${BINANCE_API_KEY:-}
+      - APP__EXCHANGE__API_SECRET=${BINANCE_API_SECRET:-}
+      # Trading mode
+      - APP__PAPER_TRADING__ENABLED=${PAPER_MODE:-true}
+      # Logging
+      - RUST_LOG=${RUST_LOG:-info}
+    volumes:
+      # Mount config directory (read-only)
+      - ../config:/app/config:ro
+      # Persist logs
+      - bot-logs:/app/logs
+    networks:
+      - trading-net
+    healthcheck:
+      test: ["CMD", "trading-bot", "status", "--format", "json"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:17-alpine
+    container_name: trading-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=trading
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=trading
+    volumes:
+      # Persist database data
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - trading-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U trading -d trading"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Web Dashboard (placeholder for Phase 9)
+  # This service is a placeholder that will be fully implemented in Phase 9
+  dashboard:
+    image: nginx:alpine
+    container_name: trading-dashboard
+    restart: unless-stopped
+    depends_on:
+      - trading-bot
+      - postgres
+    ports:
+      - "3000:80"
+    volumes:
+      # Placeholder: will mount dashboard build in Phase 9
+      - dashboard-placeholder:/usr/share/nginx/html:ro
+    networks:
+      - trading-net
+    # Note: Real dashboard implementation in Phase 9 will replace this
+
+# Named volumes for persistence
+volumes:
+  postgres-data:
+    name: trading-postgres-data
+  bot-logs:
+    name: trading-bot-logs
+  dashboard-placeholder:
+    name: trading-dashboard-placeholder
+
+# Network for service communication
+networks:
+  trading-net:
+    name: trading-network
+    driver: bridge

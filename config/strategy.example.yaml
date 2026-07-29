@@ -1,0 +1,22 @@
+# Strategy Configuration
+strategy:
+  active: rsi_stddev
+
+  # Risk Management
+  risk:
+    max_position_size_pct: 0.1    # 10% of portfolio
+    stop_loss_pct: 0.02           # 2% stop loss
+    daily_loss_limit_pct: 0.05    # 5% daily loss limit
+    max_drawdown_pct: 0.15        # 15% max drawdown circuit breaker
+
+  # RSI-StdDev Strategy
+  rsi_stddev:
+    rsi_period: 14
+    rsi_oversold: 30
+    rsi_overbought: 70
+    stddev_multiplier: 2.0
+
+  # Grid Trading Strategy
+  grid:
+    levels: 10
+    spacing_pct: 0.01  # 1% between grid levels

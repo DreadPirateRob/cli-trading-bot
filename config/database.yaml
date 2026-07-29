@@ -1,0 +1,8 @@
+# Database configuration
+# Override with APP__DATABASE__URL environment variable in production
+
+database:
+  url: "postgres://trading:trading@localhost:5432/trading_bot"
+  max_connections: 5
+  min_connections: 1
+  acquire_timeout_secs: 3

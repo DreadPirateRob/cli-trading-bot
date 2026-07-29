@@ -1,0 +1,10 @@
+# Exchange Configuration
+exchange:
+  name: binance_us
+  api_url: https://api.binance.us
+  ws_url: wss://stream.binance.us:9443/ws
+  timeout_ms: 5000
+  symbol: btcusdt
+  rate_limits:
+    requests_per_second: 10
+    burst_size: 20

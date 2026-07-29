@@ -1,0 +1,44 @@
+# Build artifacts
+target/
+
+# Version control
+.git/
+.gitignore
+
+# Documentation (except README)
+*.md
+!README.md
+
+# Environment and secrets
+.env*
+*.pem
+*.key
+
+# Logs
+*.log
+logs/
+
+# IDE and editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Planning docs
+.planning/
+
+# Docker files (don't include in context)
+Dockerfile*
+docker-compose*
+docker/
+
+# Test artifacts
+*.profraw
+coverage/
+
+# macOS
+.DS_Store
+
+# SQLx offline cache is needed
+!.sqlx/

@@ -1,0 +1,7 @@
+# Logging Configuration
+logging:
+  level: info
+  directory: ./logs
+  retention_days: 30
+  stdout: true
+  json_format: true

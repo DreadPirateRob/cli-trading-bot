@@ -1,0 +1,97 @@
+[package]
+name = "trading-bot"
+version = "0.1.0"
+edition = "2021"
+description = "Cryptocurrency trading bot for Binance.US"
+default-run = "trading-bot"
+
+[[bin]]
+name = "trading-bot"
+path = "src/main.rs"
+
+[[bin]]
+name = "trading-bot-init"
+path = "src/bin/init.rs"
+
+[dependencies]
+# Configuration
+config = { version = "0.15", features = ["yaml"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_yml = "0.0.12"
+serde_path_to_error = "0.1"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json", "fmt"] }
+tracing-appender = "0.2"
+
+# Hot-reload
+arc-swap = "1.8"
+notify = "8.2"
+
+# Validation
+validator = { version = "0.20", features = ["derive"] }
+
+# Error handling
+thiserror = "1"
+
+# Async traits
+async-trait = "0.1"
+
+# Async runtime (needed for file watcher)
+tokio = { version = "1", features = ["full"] }
+
+# WebSocket connectivity
+tokio-tungstenite = { version = "0.28", features = ["rustls-tls-native-roots"] }
+backoff = { version = "0.4", features = ["tokio"] }
+futures-util = "0.3"
+url = "2"
+
+# TLS (explicit dep for CryptoProvider installation)
+rustls = "0.23"
+
+# Secret handling (for future API key use)
+secrecy = { version = "0.10", features = ["serde"] }
+
+# JSON (for WebSocket message parsing)
+serde_json = "1"
+
+# Database
+sqlx = { version = "0.8", features = ["runtime-tokio", "tls-rustls", "postgres", "chrono", "rust_decimal", "migrate", "macros"] }
+rust_decimal = { version = "1.40", features = ["db-postgres", "serde", "maths"] }
+rust_decimal_macros = "1"
+chrono = { version = "0.4", features = ["serde"] }
+
+# Technical analysis indicators
+ta = "0.5"
+
+# Order execution (REST API)
+reqwest = { version = "0.12", features = ["json"] }
+hmac = "0.12"
+sha2 = "0.10"
+hex = "0.4"
+rand = "0.8"
+uuid = { version = "1.0", features = ["v4"] }
+
+# CLI
+clap = { version = "4.5", features = ["derive"] }
+tokio-util = { version = "0.7", features = ["rt"] }
+nix = { version = "0.29", features = ["signal", "fs"] }
+
+# Web API
+axum = { version = "0.8", features = ["ws", "macros"] }
+tower-http = { version = "0.6", features = ["cors", "fs", "trace", "compression-gzip"] }
+tower = "0.5"
+http = "1"
+
+# TUI
+ratatui = { version = "0.29", features = ["crossterm"] }
+crossterm = { version = "0.28", features = ["event-stream"] }
+
+# Telegram bot
+frankenstein = { version = "0.46", default-features = false, features = ["client-reqwest"] }
+
+[dev-dependencies]
+tempfile = "3"
+rust_decimal_macros = "1"
+sqlx = { version = "0.8", features = ["runtime-tokio", "postgres"] }
